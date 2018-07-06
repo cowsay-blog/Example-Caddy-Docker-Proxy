@@ -1,0 +1,65 @@
+# Compose file version
+version: '3'
+
+services:
+  # 這是 Reverse proxy server 的服務
+  caddy:
+    image: lucaslorentz/caddy-docker-proxy:alpine
+    ports:
+      - 80:80
+    networks:
+      - caddy
+      # 見 Caddy CLI, https://caddyserver.com/docs/cli
+    command: -email momocow.me@gmail.com -agree=true -log stdout
+    volumes:
+      # 透過此 socket 與 Docker Host 連線 
+      - /var/run/docker.sock:/var/run/docker.sock
+      # 保存所有憑證
+      - caddy_volume:/root/.caddy
+    deploy:
+      # 限制服務可以執行之機器
+      placement:
+        constraints:
+          - node.role == manager
+      # 容器數量
+      replicas: 1
+      # 重啟條件
+      restart_policy:
+        condition: any
+      resources:
+        reservations:
+          cpus: '0.1'
+          memory: 200M
+
+  # Reverse proxy target
+  whoami:
+    image: jwilder/whoami
+    networks:
+      - caddy
+    deploy:
+      labels:
+        caddy.address: whoami.cowsay.blog
+        caddy.targetport: "8000"
+        # 由於是 Demo 暫時不簽署 SSL 憑證
+        caddy.tls: "off"
+
+  md-server:
+    build: ./md-server
+    image: md-server:latest
+    networks:
+      - caddy
+    deploy:
+      labels:
+        caddy.address: cowsay.blog
+        caddy.targetport: "80"
+        # 由於是 Demo 暫時不簽署 SSL 憑證
+        caddy.tls: "off"
+
+networks:
+  caddy:
+    # 不論是否在同一台實體機器上, 服務或容器都可透過此網路介面進行溝通
+    # https://docs.docker.com/network/overlay/
+    driver: overlay
+
+volumes:
+  caddy_volume:
