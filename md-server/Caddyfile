@@ -9,5 +9,6 @@ root /var/www
 
 # 部落格路徑
 markdown /blog {
+  # 路徑相對於網站的根目錄, i.e. /var/www
   template blog blog.template.html
 }
