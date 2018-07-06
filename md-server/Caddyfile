@@ -1,5 +1,5 @@
 # 服務所有 hosts 所有 paths
-/
+:80
 
 # 禁用 HTTPS, reverse proxy server 已為我們負責傳輸安全的部分...
 tls off
