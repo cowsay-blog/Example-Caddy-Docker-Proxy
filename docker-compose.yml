@@ -15,7 +15,8 @@ services:
       # 透過此 socket 與 Docker Host 連線 
       - /var/run/docker.sock:/var/run/docker.sock
       # 保存所有憑證
-      - caddy_volume:/root/.caddy
+      # 由於是 Demo 暫時不簽署 SSL 憑證, 所以沒有保存需求
+      # - caddy_volume:/root/.caddy
     deploy:
       # 限制服務可以執行之機器
       placement:
@@ -62,4 +63,5 @@ networks:
     driver: overlay
 
 volumes:
-  caddy_volume:
+  # 由於是 Demo 暫時不簽署 SSL 憑證, 所以沒有保存需求
+  # caddy_volume:
