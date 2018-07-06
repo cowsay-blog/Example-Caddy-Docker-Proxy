@@ -7,8 +7,10 @@ tls off
 # 根目錄
 root /var/www
 
-# 部落格路徑
-markdown /blog {
+# 預設副檔名
+ext .html .md
+
+markdown {
   # 路徑相對於網站的根目錄, i.e. /var/www
   template blog blog.template.html
 }
