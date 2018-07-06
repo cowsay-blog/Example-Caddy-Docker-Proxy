@@ -38,7 +38,7 @@ services:
       - caddy
     deploy:
       labels:
-        caddy.address: whoami.cowsay.blog
+        caddy.address: whoami.cowsay.blog:80
         caddy.targetport: "8000"
         # 由於是 Demo 暫時不簽署 SSL 憑證
         caddy.tls: "off"
@@ -50,7 +50,7 @@ services:
       - caddy
     deploy:
       labels:
-        caddy.address: cowsay.blog
+        caddy.address: cowsay.blog:80
         caddy.targetport: "80"
         # 由於是 Demo 暫時不簽署 SSL 憑證
         caddy.tls: "off"
