@@ -6,7 +6,7 @@ services:
   caddy:
     image: lucaslorentz/caddy-docker-proxy:alpine
     ports:
-      - 80:80
+      - 8080:2015
     networks:
       - caddy
       # 見 Caddy CLI, https://caddyserver.com/docs/cli
@@ -36,7 +36,7 @@ services:
       - caddy
     deploy:
       labels:
-        caddy.address: whoami.cowsay.blog:80
+        caddy.address: whoami.cowsay.blog
         caddy.targetport: "8000"
         # 由於是 Demo 暫時不簽署 SSL 憑證
         caddy.tls: "off"
@@ -48,7 +48,7 @@ services:
       - caddy
     deploy:
       labels:
-        caddy.address: cowsay.blog:80
+        caddy.address: cowsay.blog
         caddy.targetport: "80"
         # 由於是 Demo 暫時不簽署 SSL 憑證
         caddy.tls: "off"
